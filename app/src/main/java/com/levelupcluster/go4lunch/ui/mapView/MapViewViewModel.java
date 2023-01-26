@@ -1,16 +1,16 @@
-package com.levelupcluster.go4lunch.ui.home;
+package com.levelupcluster.go4lunch.ui.mapView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class MapViewViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public MapViewViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is Map View fragment");
     }
 
     public LiveData<String> getText() {
