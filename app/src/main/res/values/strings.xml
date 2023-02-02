@@ -3,4 +3,9 @@
     <string name="title_map_view">Map View</string>
     <string name="title_list_view">List View</string>
     <string name="title_workmates">Workmates</string>
+    <string name="connection_btn">se connecter</string>
+    <string name="connection_succeed">Vous êtes connecté !</string>
+    <string name="error_authentication_canceled">L\'autentification a échoué</string>
+    <string name="error_no_internet">Vous n\'êtes pas connecté à internet</string>
+    <string name="error_unknown_error">Oups, il y a un problème...</string>
 </resources>
