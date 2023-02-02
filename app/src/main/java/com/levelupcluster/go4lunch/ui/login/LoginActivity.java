@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                         .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false, true)
-                        .setLogo(R.drawable.ic_baseline_group_24)
+                        .setLogo(R.drawable.logo_go4lunch)
                         .build(),
                 RC_SIGN_IN);
     }
