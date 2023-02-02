@@ -1,6 +1,11 @@
-plugins {
+//apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
+
+plugins{
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
+
 
 android {
     namespace 'com.levelupcluster.go4lunch'
@@ -11,7 +16,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,16 +50,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
-
+//    implementation platform('com.google.firebase:firebase-bom:31.2.0')
     // Firebase
 
 
     // Required only if Facebook login support is required
     // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
-    implementation 'com.facebook.android:facebook-android-sdk:8.x'
+//    implementation 'com.facebook.android:facebook-android-sdk:8.x'
 
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
-    implementation 'com.firebaseui:firebase-ui-auth'
-    implementation 'com.google.firebase:firebase-auth'
+//    implementation 'com.firebaseui:firebase-ui-auth'
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
 }
