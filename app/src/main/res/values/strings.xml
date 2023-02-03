@@ -8,4 +8,9 @@
     <string name="error_authentication_canceled">L\'autentification a échoué</string>
     <string name="error_no_internet">Vous n\'êtes pas connecté à internet</string>
     <string name="error_unknown_error">Oups, il y a un problème...</string>
+    <string name="your_lunch_nav_menu">your lunch</string>
+    <string name="setting_nav_menu">settings</string>
+    <string name="logout_nav_menu">logout</string>
+    <string name="navigation_close">Fermer le menu</string>
+    <string name="navigation_open">Ouvrir le menu</string>
 </resources>

@@ -48,6 +48,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //design
+    implementation "androidx.drawerlayout:drawerlayout:1.1.1"
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+
+
     // Required only if Facebook login support is required
     // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
 //    implementation 'com.facebook.android:facebook-android-sdk:8.x'

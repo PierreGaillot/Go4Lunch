@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.levelupcluster.go4lunch.databinding.FragmentNotificationsBinding;
+import com.levelupcluster.go4lunch.databinding.FragmentWorkmatesBinding;
 
 public class WorkmatesFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentWorkmatesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         WorkmatesViewModel workmatesViewModel =
                 new ViewModelProvider(this).get(WorkmatesViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentWorkmatesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
