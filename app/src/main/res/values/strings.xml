@@ -1,4 +1,6 @@
 <resources>
+    <string name="facebook_application_id">711366744046875</string>
+    <string name="fb_login_protocol_scheme">fb711366744046875</string>
     <string name="app_name">Go4Lunch</string>
     <string name="title_map_view">Map View</string>
     <string name="title_list_view">List View</string>
@@ -7,7 +9,7 @@
     <string name="connection_succeed">Vous êtes connecté !</string>
     <string name="error_authentication_canceled">L\'autentification a échoué</string>
     <string name="error_no_internet">Vous n\'êtes pas connecté à internet</string>
-    <string name="error_unknown_error">Oups, il y a un problème...</string>
+    <string name="error_unknown_error">Oups, il y a un problème…</string>
     <string name="your_lunch_nav_menu">your lunch</string>
     <string name="setting_nav_menu">settings</string>
     <string name="logout_nav_menu">logout</string>
