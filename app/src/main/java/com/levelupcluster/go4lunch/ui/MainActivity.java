@@ -1,4 +1,4 @@
-package com.levelupcluster.go4lunch;
+package com.levelupcluster.go4lunch.ui;
 
 import android.content.Intent;
 import android.graphics.RenderEffect;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,26 +18,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.navigation.NavigationView;
+import com.levelupcluster.go4lunch.R;
 import com.levelupcluster.go4lunch.databinding.ActivityMainBinding;
+import com.levelupcluster.go4lunch.domain.models.User;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private MainActivityViewModel viewModel;
 
     private ActivityMainBinding binding;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private int RC_SIGN_IN = 123;
+    ImageView drawerProfileImageView;
+    TextView drawerProfileUserNameTextView;
+    TextView drawerProfileUserMailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        startSignInActivity();
         super.onCreate(savedInstanceState);
+        startSignInActivity();
+
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -53,15 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpToolbar();
         configureDrawerLayout();
         configureNavigationView();
+        configureDrawerHeader();
     }
 
     private void setUpToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        toolbar.setTitle("Super Titre");
-//        toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,20 +83,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private  void configureDrawerLayout(){
+    private void configureDrawerLayout() {
         this.drawerLayout = (DrawerLayout) findViewById(R.id.main_act_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_close, R.string.navigation_open);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    private void configureNavigationView(){
-        ImageView imageView = findViewById(R.id.drawer_header_imageView);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            imageView.setRenderEffect(RenderEffect.createBlurEffect(20,20, Shader.TileMode.MIRROR));
-        }
+    private void configureDrawerHeader() {
+        viewModel.getHeaderData().observe(this, drawerHeaderUiModel -> {
+            if (drawerHeaderUiModel == null) {
+                Glide.with(this)
+                        .load("")
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(drawerProfileImageView);
+                drawerProfileUserNameTextView.setText("");
+                drawerProfileUserMailTextView.setText("");
+            }else{
+                Glide.with(this)
+                        .load(drawerHeaderUiModel.getImageURL())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(drawerProfileImageView);
+                drawerProfileUserNameTextView.setText(drawerHeaderUiModel.getUserName());
+                drawerProfileUserMailTextView.setText(drawerHeaderUiModel.getUserEmail());
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.reloadCurrentUser();
+    }
+
+    private void configureNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.main_act_nav_drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_imageView);
+        drawerProfileImageView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_profile_imageView);
+        drawerProfileUserNameTextView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_userName_textView);
+        drawerProfileUserMailTextView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_userMail_textView);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            imageView.setRenderEffect(RenderEffect.createBlurEffect(20, 20, Shader.TileMode.MIRROR));
+        }
     }
 
     @Override
@@ -97,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.drawer_menu_logout:
                 System.out.println("Logout");
+                viewModel.signOutUser(this);
+                startSignInActivity();
                 break;
             default:
                 break;
@@ -107,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(this.drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -143,9 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data) {
-
         IdpResponse response = IdpResponse.fromResultIntent(data);
-
         if (requestCode == RC_SIGN_IN) {
             // SUCCESS
             if (resultCode == RESULT_OK) {
@@ -169,4 +214,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
 }

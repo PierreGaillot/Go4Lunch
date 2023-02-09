@@ -6,6 +6,7 @@
         android:id="@+id/action_name"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Text to be seen by user"
+        android:iconTint="@color/design_default_color_secondary_variant"
         app:showAsAction="always"
         android:orderInCategory="0"/>
 

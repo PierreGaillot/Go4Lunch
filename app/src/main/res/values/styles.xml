@@ -29,13 +29,7 @@
 
     <style name="CustomToolBarTheme" parent="Theme.MaterialComponents.DayNight">
         <item name="android:tint">@color/design_default_color_on_primary</item>
+        <item name="colorControlNormal">@color/design_default_color_on_primary</item>
     </style>
 
-    <style name="circular">
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="blur">
-        <item name="textureBlurFactor">50</item>
-    </style>
 </resources>

@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <!-- LOGIN -->
+    <style name="Theme.Go4Lunch.login" parent="Theme.Go4Lunch">
+        <!-- Customize your theme here. -->
+        <item name="actionBarTheme">@style/Theme.AppCompat.DayNight.NoActionBar</item>
+    </style>
+
 </resources>

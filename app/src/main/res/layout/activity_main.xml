@@ -8,7 +8,7 @@
     android:id="@+id/main_act_drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,6 +60,7 @@
         android:id="@+id/main_act_nav_drawer_view"
         android:layout_width="wrap_content"
         android:fitsSystemWindows="true"
+        app:itemTextColor="@color/design_default_color_on_primary"
         android:layout_height="match_parent"
         app:headerLayout="@layout/drawer_menu_header"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +68,12 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_gravity="start"
         app:menu="@menu/drawer_menu_content"
+        app:itemIconTint="@color/design_default_color_on_primary"
         android:background="@color/design_default_color_secondary_variant">
-
+        <ImageView
+            android:src="@drawable/go4lunch_icon"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="bottom" />
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
