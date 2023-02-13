@@ -5,7 +5,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.levelupcluster.go4lunch.data.usecases.WorkmatesCallback;
+import com.levelupcluster.go4lunch.domain.models.Workmate;
 import com.levelupcluster.go4lunch.domain.usecases.GetAllWorkmatesUseCase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkmatesViewModel extends ViewModel {
 
@@ -22,7 +27,21 @@ public class WorkmatesViewModel extends ViewModel {
         return mText;
     }
 
-    public void getWorkmates() throws FirebaseAuthException {
-        getAllWorkmatesUseCase.getWorkmates();
+    public void getWorkmates(GetWorkmateCallback getWorkmateCallback) throws FirebaseAuthException {
+        List<Workmate> workmates = new ArrayList<>();
+        getAllWorkmatesUseCase.getWorkmates(new WorkmatesCallback() {
+            @Override
+            public void onCallback(List<Workmate> workmateList) {
+                System.out.println("DEBUG View Model");
+                System.out.println(workmateList);
+                getWorkmateCallback.onCallback(workmateList);
+            }
+        });
     }
 }
+
+interface GetWorkmateCallback{
+    void onCallback(List<Workmate> workmateList);
+}
+
+

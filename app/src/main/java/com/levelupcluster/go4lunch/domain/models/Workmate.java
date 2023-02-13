@@ -4,10 +4,12 @@ public class Workmate {
 
     String displayName;
     String imageUrl;
+    String email;
 
-    public Workmate(String displayName, String imageUrl) {
+    public Workmate(String displayName, String imageUrl, String email) {
         this.displayName = displayName;
         this.imageUrl = imageUrl;
+        this.email = email;
     }
 
     public String getDisplayName() {
@@ -24,5 +26,13 @@ public class Workmate {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
