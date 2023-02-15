@@ -1,38 +1,22 @@
 package com.levelupcluster.go4lunch.domain.models;
 
-public class Workmate {
+import org.jetbrains.annotations.Nullable;
 
-    String displayName;
-    String imageUrl;
-    String email;
+public class Workmate extends User {
 
-    public Workmate(String displayName, String imageUrl, String email) {
-        this.displayName = displayName;
-        this.imageUrl = imageUrl;
-        this.email = email;
+    @Nullable
+    Restaurant restaurantChoice;
+
+    public Workmate(String imageURL, String displayName, String email) {
+        super(imageURL, displayName, email);
     }
 
-    public String getDisplayName() {
-        return displayName;
+    @Nullable
+    public Restaurant getRestaurantChoice() {
+        return restaurantChoice;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRestaurantChoice(@Nullable Restaurant restaurantChoice) {
+        this.restaurantChoice = restaurantChoice;
     }
 }

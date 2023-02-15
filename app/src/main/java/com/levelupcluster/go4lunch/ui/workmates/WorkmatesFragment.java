@@ -67,7 +67,7 @@ public class WorkmatesFragment extends Fragment {
                     System.out.println("DEBUG in Workmates Frag:");
                     System.out.println(workmates);
 
-                    adapter.update((ArrayList<Workmate>) workmates);
+                    adapter.update(workmates);
                 }
             });
 

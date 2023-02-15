@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ import com.levelupcluster.go4lunch.domain.models.User;
 import java.util.Arrays;
 import java.util.List;
 
+import jp.wasabeef.blurry.Blurry;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private MainActivityViewModel viewModel;
@@ -54,17 +57,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         startSignInActivity();
 
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         setUpToolbar();
+        setUpNav();
+        configureDrawerLayout();
+        configureDrawerHeader();
+        configureNavigationView();
+    }
 
-
+    private void setUpNav() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -74,10 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
-        configureDrawerLayout();
-        configureNavigationView();
-        configureDrawerHeader();
     }
 
     private void setUpToolbar() {
@@ -128,14 +131,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.main_act_nav_drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_imageView);
+        ImageView drawerBackground = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_imageView);
+        //TODO add blur to drawerBackground (https://github.com/wasabeef/Blurry)
+//        Blurry.with(this).capture(navigationView).into(drawerBackground);
         drawerProfileImageView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_profile_imageView);
         drawerProfileUserNameTextView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_userName_textView);
         drawerProfileUserMailTextView = navigationView.getHeaderView(0).findViewById(R.id.drawer_header_userMail_textView);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            imageView.setRenderEffect(RenderEffect.createBlurEffect(20, 20, Shader.TileMode.MIRROR));
-        }
+
+
     }
 
     @Override

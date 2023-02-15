@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/workmate_item_row_profile_imageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/workmate_profile_item_row"
+        android:layout_height="@dimen/workmate_profile_item_row"
         android:layout_weight="0"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/go4lunch_bg_large"

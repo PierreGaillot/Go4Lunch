@@ -2,11 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:gravity="center_horizontal">
+    <item
+        android:gravity="clip_vertical|center_horizontal"
+        >
         <bitmap
-            android:src="@drawable/go4lunch_bg_large"
-            android:gravity="fill_vertical"
-            />
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/go4lunch_bg_square" />
     </item>
 
 </layer-list>

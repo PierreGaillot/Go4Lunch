@@ -15,4 +15,6 @@
     <string name="logout_nav_menu">logout</string>
     <string name="navigation_close">Fermer le menu</string>
     <string name="navigation_open">Ouvrir le menu</string>
+    <string name="not_decided">hasn\'t decided yet</string>
+    <string name="is_eating">is eating</string>
 </resources>

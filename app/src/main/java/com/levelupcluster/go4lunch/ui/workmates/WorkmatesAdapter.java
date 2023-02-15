@@ -1,6 +1,7 @@
 package com.levelupcluster.go4lunch.ui.workmates;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.levelupcluster.go4lunch.R;
+import com.levelupcluster.go4lunch.domain.models.Restaurant;
 import com.levelupcluster.go4lunch.domain.models.Workmate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyViewHolder>{
+public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyViewHolder> {
 
     List<Workmate> workmates;
     Context context;
@@ -40,9 +42,24 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.status.setText(workmates.get(position).getDisplayName());
+        Workmate currentWm = workmates.get(position);
+        Restaurant wmChoice = currentWm.getRestaurantChoice();
+
+        // TODO if workmate have a restaurant.
+        String workmateStatus = "";
+        if (wmChoice != null) { // the workmate have a restaurant assign.
+            workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.is_eating) + " " + wmChoice.getCookStyle() + " (" + wmChoice.getName() + ")";
+            holder.status.setTypeface(null, Typeface.BOLD);
+            holder.status.setTextColor(context.getResources().getColor(com.firebase.ui.auth.R.color.design_default_color_on_background));
+        } else { // the workmate does not have a restaurant assigned
+            workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.not_decided);
+            holder.status.setTypeface(null, Typeface.ITALIC);
+        }
+
+
+        holder.status.setText(workmateStatus);
         Glide.with(context)
-                .load(workmates.get(position).getImageUrl())
+                .load(workmates.get(position).getImageURL())
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.profileImage);
     }
@@ -52,7 +69,7 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
         return workmates.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView profileImage;
         TextView status;
 
@@ -60,14 +77,12 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
             super(itemView);
             profileImage = itemView.findViewById(R.id.workmate_item_row_profile_imageView);
             status = itemView.findViewById(R.id.workmate_item_row_textView);
-
         }
     }
 
-    public void update(ArrayList<Workmate> list) {
+    public void update(List<Workmate> list) {
         workmates.clear();
         workmates.addAll(list);
         notifyDataSetChanged();
-        System.out.println(list);
     }
 }
