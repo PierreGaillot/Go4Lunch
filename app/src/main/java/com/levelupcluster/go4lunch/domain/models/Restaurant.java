@@ -100,6 +100,10 @@ public class Restaurant {
         this.photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth="+size+"&photo_reference="+ photoReference+ "&key=" + API_KEY;
     }
 
+    public void setPhotoPlaceHolder(){
+        this.photoUrl = "https://karamathsrestaurant.com/wp-content/uploads/2022/02/image-coming-soon-placeholder.png";
+    }
+
     public String getPhotoUrl() {
         return photoUrl;
     }

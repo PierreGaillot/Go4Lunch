@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.location.places.Place;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.levelupcluster.go4lunch.domain.models.RestaurantDetails;
 import com.levelupcluster.go4lunch.utils.Callback;
 import com.levelupcluster.go4lunch.domain.models.Workmate;
 import com.levelupcluster.go4lunch.domain.usecases.GetAllWorkmatesUseCase;
@@ -23,7 +24,6 @@ public class WorkmatesViewModel extends ViewModel {
 
     private final MutableLiveData<List<Workmate>> _workmates = new MutableLiveData<>(new ArrayList<>());
     public LiveData<List<Workmate>> workmates = _workmates;
-
 
 
     public void refreshWorkmates() throws FirebaseAuthException {

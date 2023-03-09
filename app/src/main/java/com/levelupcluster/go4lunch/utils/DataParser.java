@@ -20,6 +20,7 @@ public class DataParser {
         try {
             googleRestaurant.setPhoto(150, googlePlaceJSON.getJSONArray("photos").getJSONObject(0).getString("photo_reference"));
         } catch (JSONException e) {
+            googleRestaurant.setPhotoPlaceHolder();
             e.printStackTrace();
         }
 
@@ -63,6 +64,7 @@ public class DataParser {
             String photoReference = result.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
             restaurantDtl.setPhoto(400, photoReference);
         } catch (JSONException e) {
+            restaurantDtl.setPhotoPlaceHolder();
             e.printStackTrace();
         }
 

@@ -42,7 +42,6 @@ public final class WorkmateRepository {
 
     @Nullable
     public void getWorkmates(Callback<List<Workmate>> callback) {
-
         if(workmates.isEmpty()){
             User currentUser = userRepository.getCurrentUser();
             db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -66,8 +65,6 @@ public final class WorkmateRepository {
         } else {
             callback.onCallback(workmates);
         }
-
-
     }
 
 }

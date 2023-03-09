@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.levelupcluster.go4lunch.R;
 import com.levelupcluster.go4lunch.databinding.FragmentWorkmatesBinding;
 import com.levelupcluster.go4lunch.domain.models.Workmate;
+import com.levelupcluster.go4lunch.ui.RestaurantViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,9 @@ import java.util.List;
 public class WorkmatesFragment extends Fragment {
 
     private FragmentWorkmatesBinding binding;
-    private WorkmatesViewModel viewModel;
+    private WorkmatesViewModel workmatesViewModel;
+
+    private RestaurantViewModel restaurantViewModel;
     private WorkmatesAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -33,6 +36,8 @@ public class WorkmatesFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         WorkmatesViewModel workmatesViewModel =
                 new ViewModelProvider(this).get(WorkmatesViewModel.class);
+        RestaurantViewModel restaurantViewModel =
+                new ViewModelProvider(this).get(RestaurantViewModel.class);
 
 
         binding = FragmentWorkmatesBinding.inflate(inflater, container, false);
@@ -57,8 +62,8 @@ public class WorkmatesFragment extends Fragment {
     }
 
     private void refreshList() throws FirebaseAuthException {
-        viewModel.refreshWorkmates();
-        viewModel.workmates.observe(getViewLifecycleOwner(), new Observer<List<Workmate>>() {
+        workmatesViewModel.refreshWorkmates();
+        workmatesViewModel.workmates.observe(getViewLifecycleOwner(), new Observer<List<Workmate>>() {
             @Override
             public void onChanged(List<Workmate> workmates) {
                 adapter.update(workmates);
@@ -70,7 +75,7 @@ public class WorkmatesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(WorkmatesViewModel.class);
+        workmatesViewModel = new ViewModelProvider(this).get(WorkmatesViewModel.class);
 
     }
 

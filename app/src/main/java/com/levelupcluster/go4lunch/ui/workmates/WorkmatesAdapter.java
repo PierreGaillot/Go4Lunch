@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.levelupcluster.go4lunch.R;
 import com.levelupcluster.go4lunch.domain.models.Restaurant;
+import com.levelupcluster.go4lunch.domain.models.RestaurantDetails;
 import com.levelupcluster.go4lunch.domain.models.Workmate;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
         Restaurant wmChoice = null;
 
         String workmateStatus = "";
-        if (wmChoice != null) { // the workmate have a restaurant assign.
+        if (wmChoiceId != null) { // the workmate have a restaurant assign.
             workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.is_eating) + " " + wmChoice.getCookStyle() + " (" + wmChoice.getName() + ")";
             holder.status.setTypeface(null, Typeface.BOLD);
             holder.status.setTextColor(context.getResources().getColor(com.firebase.ui.auth.R.color.design_default_color_on_background));

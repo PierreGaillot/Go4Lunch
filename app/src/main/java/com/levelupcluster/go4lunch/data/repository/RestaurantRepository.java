@@ -18,10 +18,11 @@ import java.util.List;
 public class RestaurantRepository {
 
     private static volatile RestaurantRepository instance;
-
     private WorkmateRepository workmateRepository = WorkmateRepository.getInstance();
     GetNearbyPlaces getNearbyPlaces = new GetNearbyPlaces();
     GetRestaurantDetails getRestaurantDetails = new GetRestaurantDetails();
+
+
 
     private RestaurantRepository() {
     }
@@ -64,4 +65,5 @@ public class RestaurantRepository {
             }
         });
     }
+
 }
