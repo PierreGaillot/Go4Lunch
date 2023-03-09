@@ -3,8 +3,10 @@
 plugins{
     id 'com.android.application'
     id 'com.google.gms.google-services'
-}
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'androidx.navigation.safeargs'
 
+}
 
 android {
     namespace 'com.levelupcluster.go4lunch'
@@ -38,7 +40,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
@@ -46,9 +48,16 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.4.1'
     implementation 'androidx.navigation:navigation-ui:2.4.1'
     implementation 'com.google.firebase:firebase-firestore:24.4.2'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+    //Google Maps & places
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.libraries.places:places:3.0.0'
 
     //design
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
@@ -59,16 +68,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-
-    // Required only if Facebook login support is required
-    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+    // Facebook
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
-
+    // Firebase
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
 
-//    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
 }

@@ -1,10 +1,12 @@
 <resources>
+    <string name="map_id">b7c38d206dc00cb6</string>
     <string name="facebook_application_id">711366744046875</string>
     <string name="fb_login_protocol_scheme">fb711366744046875</string>
     <string name="app_name">Go4Lunch</string>
     <string name="title_map_view">Map View</string>
     <string name="title_list_view">List View</string>
-    <string name="title_workmates">Workmates</string>
+    <string name="title_workmates">Workmates View</string>
+    <string name="title_restaurant_details">Restaurant Details</string>
     <string name="connection_btn">se connecter</string>
     <string name="connection_succeed">Vous êtes connecté !</string>
     <string name="error_authentication_canceled">L\'autentification a échoué</string>
@@ -17,4 +19,10 @@
     <string name="navigation_open">Ouvrir le menu</string>
     <string name="not_decided">hasn\'t decided yet</string>
     <string name="is_eating">is eating</string>
+    <string name="default_info_title">test info title</string>
+    <string name="default_info_snippet">test default info snippet</string>
+    <string name="pick_place">\????</string>
+    <string name="restDetail_call">call</string>
+    <string name="restDetail_like">like</string>
+    <string name="restDetail_website">website</string>
 </resources>

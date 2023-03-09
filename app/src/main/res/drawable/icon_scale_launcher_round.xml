@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/go4lunch_icon"
+    android:insetTop="@dimen/ic_icon_scale_round"
+    android:insetLeft="@dimen/ic_icon_scale_round"
+    android:insetRight="@dimen/ic_icon_scale_round"
+    android:insetBottom="@dimen/ic_icon_scale_round"
+    >
+
+</inset>

@@ -82,4 +82,8 @@ public class MainActivityViewModel extends ViewModel {
         signOutCurrentUserUseCase.signOut(context);
     }
 
+    public void getRestaurantAround(){
+
+    }
+
 }

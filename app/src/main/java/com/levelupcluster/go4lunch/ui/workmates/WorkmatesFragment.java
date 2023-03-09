@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.levelupcluster.go4lunch.R;
 import com.levelupcluster.go4lunch.databinding.FragmentWorkmatesBinding;
 import com.levelupcluster.go4lunch.domain.models.Workmate;
-import com.levelupcluster.go4lunch.ui.MainActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,25 +51,19 @@ public class WorkmatesFragment extends Fragment {
 
     private void initList() throws FirebaseAuthException {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new WorkmatesAdapter(getContext(), new ArrayList<Workmate>() {
-        });
+        adapter = new WorkmatesAdapter(new ArrayList<Workmate>());
         recyclerView.setAdapter(adapter);
         refreshList();
     }
 
     private void refreshList() throws FirebaseAuthException {
-        List<Workmate> workmates = new ArrayList<>();
-            viewModel.getWorkmates(new GetWorkmateCallback() {
-                @Override
-                public void onCallback(List<Workmate> workmateList) {
-                    workmates.addAll(workmateList);
-                    System.out.println("DEBUG in Workmates Frag:");
-                    System.out.println(workmates);
-
-                    adapter.update(workmates);
-                }
-            });
-
+        viewModel.refreshWorkmates();
+        viewModel.workmates.observe(getViewLifecycleOwner(), new Observer<List<Workmate>>() {
+            @Override
+            public void onChanged(List<Workmate> workmates) {
+                adapter.update(workmates);
+            }
+        });
     }
 
 

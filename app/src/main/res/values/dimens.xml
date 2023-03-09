@@ -4,4 +4,11 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="drawer_header_height">240dp</dimen>
     <dimen name="workmate_profile_item_row">60dp</dimen>
+    <dimen name="restaurant_item_row_image">80dp</dimen>
+    <dimen name="ic_icon_scale">28dp</dimen>
+    <dimen name="ic_icon_scale_round">40dp</dimen>
+    <dimen name="restView_icon_padding">12dp</dimen>
+    <dimen name="restView_img_height">280dp</dimen>
+
+
 </resources>

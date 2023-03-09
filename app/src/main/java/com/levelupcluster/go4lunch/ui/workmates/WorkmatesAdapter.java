@@ -23,11 +23,8 @@ import java.util.List;
 public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyViewHolder> {
 
     List<Workmate> workmates;
-    Context context;
 
-
-    public WorkmatesAdapter(Context context, List<Workmate> workmates) {
-        this.context = context;
+    public WorkmatesAdapter (List<Workmate> workmates) {
         this.workmates = workmates;
     }
 
@@ -35,17 +32,18 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.workmate_item_row, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         Workmate currentWm = workmates.get(position);
-        Restaurant wmChoice = currentWm.getRestaurantChoice();
+        String wmChoiceId = currentWm.getRestaurantChoiceId();
+        Restaurant wmChoice = null;
 
-        // TODO if workmate have a restaurant.
         String workmateStatus = "";
         if (wmChoice != null) { // the workmate have a restaurant assign.
             workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.is_eating) + " " + wmChoice.getCookStyle() + " (" + wmChoice.getName() + ")";

@@ -65,14 +65,18 @@
                     android:text="Nom Prenom"
                     android:textColor="@color/design_default_color_on_primary"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
                 <TextView
                     android:id="@+id/drawer_header_userMail_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="monmail@gmail.fr"
-                    android:textColor="@color/design_default_color_on_primary" />
+                    android:textColor="@color/design_default_color_on_primary"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
 
             </LinearLayout>

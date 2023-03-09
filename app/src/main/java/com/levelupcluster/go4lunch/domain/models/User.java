@@ -1,10 +1,15 @@
 package com.levelupcluster.go4lunch.domain.models;
 
+import org.jetbrains.annotations.Nullable;
+
 public class User {
 
     private String imageURL;
     private String displayName;
     private String email;
+
+    @Nullable
+    String restaurantChoiceId;
 
     public User(String imageURL, String displayName, String email) {
         this.imageURL = imageURL;
@@ -35,4 +40,13 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    @Nullable
+    public String getRestaurantChoiceId() {
+        return restaurantChoiceId;
+    }
+
+    public void setRestaurantChoiceId(@Nullable String restaurantChoiceId) {
+        this.restaurantChoiceId = restaurantChoiceId;
+    }
+
 }

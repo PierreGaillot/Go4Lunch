@@ -3,23 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_map">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_map"
         android:name="com.levelupcluster.go4lunch.ui.mapView.MapViewFragment"
         android:label="@string/title_map_view"
         tools:layout="@layout/fragment_map_view" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_list"
         android:name="com.levelupcluster.go4lunch.ui.listView.ListViewFragment"
         android:label="@string/title_list_view"
-        tools:layout="@layout/fragment_list_view" />
+        tools:layout="@layout/fragment_list_view" >
+        <action
+            android:id="@+id/action_navigation_list_to_navigation_restaurant"
+            app:destination="@id/navigation_restaurant" />
+
+    </fragment>
+
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_workmates"
         android:name="com.levelupcluster.go4lunch.ui.workmates.WorkmatesFragment"
         android:label="@string/title_workmates"
         tools:layout="@layout/fragment_workmates" />
+
+    <fragment
+        android:id="@+id/navigation_restaurant"
+        android:name="com.levelupcluster.go4lunch.ui.restaurantView.RestaurantViewFragment"
+        android:label="@string/title_restaurant_details"
+        tools:layout="@layout/fragment_restaurant_view"/>
+
 </navigation>

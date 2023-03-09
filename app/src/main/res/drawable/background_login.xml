@@ -3,10 +3,9 @@
 
 
     <item
-        android:gravity="clip_vertical|center_horizontal"
         >
         <bitmap
-
+            android:gravity="fill_vertical|center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/go4lunch_bg_square" />

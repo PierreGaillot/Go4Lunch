@@ -3,6 +3,7 @@ package com.levelupcluster.go4lunch.data.repository;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.levelupcluster.go4lunch.domain.models.User;
 
 import java.util.HashMap;
@@ -82,5 +84,23 @@ public final class UserRepository {
 
     public void signOut(Context context){
         AuthUI.getInstance().signOut(context);
+    }
+
+    public void updateRestaurantChoiceId(String restaurantId){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        User currentUser = getCurrentUser();
+        db.collection("users").whereEqualTo("email", currentUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                String userId = queryDocumentSnapshots.getDocuments().get(0).getId();
+                db.collection("users").document(userId).update("restaurantChoiceId", restaurantId).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        System.out.println("Vous vez choisi le restaurant : " + restaurantId);
+                    }
+                });
+            }
+        });
+
     }
 }
