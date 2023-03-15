@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.levelupcluster.go4lunch.domain.models.User;
+import com.levelupcluster.go4lunch.utils.Callback;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -86,7 +87,7 @@ public final class UserRepository {
         AuthUI.getInstance().signOut(context);
     }
 
-    public void updateRestaurantChoiceId(String restaurantId){
+    public void updateRestaurantChoiceId(String restaurantId, Callback<Void> callback){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         User currentUser = getCurrentUser();
         db.collection("users").whereEqualTo("email", currentUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -96,7 +97,7 @@ public final class UserRepository {
                 db.collection("users").document(userId).update("restaurantChoiceId", restaurantId).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        System.out.println("Vous vez choisi le restaurant : " + restaurantId);
+                        callback.onCallback(unused);
                     }
                 });
             }

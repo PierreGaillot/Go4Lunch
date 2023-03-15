@@ -25,4 +25,8 @@
     <string name="restDetail_call">call</string>
     <string name="restDetail_like">like</string>
     <string name="restDetail_website">website</string>
+    <string name="you_now_eat_at">you now eat at </string>
+    <string name="you_already_eat_at">you already eat at</string>
+    <string name="no_workmate_eat_here">no workmate eat here</string>
+
 </resources>

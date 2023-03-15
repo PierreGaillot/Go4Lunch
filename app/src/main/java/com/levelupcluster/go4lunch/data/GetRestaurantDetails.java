@@ -21,6 +21,7 @@ public class GetRestaurantDetails {
             "formatted_address",
             "website",
             "photo"
+
             /**
              *             "photo",
              *             "type",
@@ -32,8 +33,6 @@ public class GetRestaurantDetails {
              *             "editorial_summary",
              *             "dine_in"
              */
-
-
     ));
 
     public void getDetails(String restaurantId, Callback<RestaurantDetails> callback){
@@ -60,7 +59,7 @@ public class GetRestaurantDetails {
 
         url.append("&place_id=").append(placeId);
         url.append("&key=" + API_KEY);
-        System.out.println(url.toString());
+//        System.out.println(url.toString());
         return url.toString();
 
     }

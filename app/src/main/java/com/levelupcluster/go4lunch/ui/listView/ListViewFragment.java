@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewFragment extends Fragment {
-
     private FragmentListViewBinding binding;
     RecyclerView recyclerView;
     ListViewAdapter adapter;

@@ -42,29 +42,37 @@ public final class WorkmateRepository {
 
     @Nullable
     public void getWorkmates(Callback<List<Workmate>> callback) {
-        if(workmates.isEmpty()){
-            User currentUser = userRepository.getCurrentUser();
-            db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        List<Workmate> workmateList = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Workmate workmate = new Workmate(document.getString("imageUrl"), document.getString("displayName"), document.getString("email"));
+        db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Workmate> workmateList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Workmate workmate = new Workmate(document.getString("imageUrl"), document.getString("displayName"), document.getString("email"));
 
-                            workmate.setRestaurantChoiceId(document.getString("restaurantChoiceId"));
+                        workmate.setRestaurantChoiceId(document.getString("restaurantChoiceId"));
+                        workmateList.add(workmate);
+                    }
+                    workmates = workmateList;
+                    callback.onCallback(workmates);
+                }
+            }
+        });
+    }
 
-                            if (!currentUser.getEmail().equals(workmate.getEmail()))
-                                workmateList.add(workmate);
-                        }
-                        workmates = workmateList;
-                        callback.onCallback(workmates);
+    public void getCurrentWorkmate(Callback<Workmate> callback) {
+        User currentUser = userRepository.getCurrentUser();
+        getWorkmates(new Callback<List<Workmate>>() {
+            @Override
+            public void onCallback(List<Workmate> result) {
+                for (Workmate wm : result) {
+                    if (wm.getEmail().equals(currentUser.getEmail())) {
+                        callback.onCallback(wm);
                     }
                 }
-            });
-        } else {
-            callback.onCallback(workmates);
-        }
+            }
+        });
+
     }
 
 }

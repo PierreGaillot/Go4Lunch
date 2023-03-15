@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,12 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
+
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -36,11 +33,11 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.levelupcluster.go4lunch.R;
 import com.levelupcluster.go4lunch.databinding.ActivityMainBinding;
 import com.levelupcluster.go4lunch.domain.models.RestaurantDetails;
-import com.levelupcluster.go4lunch.ui.listView.ListViewFragmentDirections;
-import com.levelupcluster.go4lunch.ui.restaurantView.RestaurantViewFragment;
+import com.levelupcluster.go4lunch.utils.Callback;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -161,7 +158,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch (id) {
             case R.id.drawer_menu_restaurant:
-                System.out.println("Restaurant");
+                try {
+                    viewModel.getUserRestaurantDetails(new Callback<RestaurantDetails>() {
+                        @Override
+                        public void onCallback(RestaurantDetails result) {
+                            Bundle restaurantDetailBundle = new Bundle();
+                            restaurantDetailBundle.putSerializable("restaurant", (Serializable) result);
+
+                            navController.navigate(
+                                    R.id.action_navigation_map_to_navigation_restaurant,
+                                    restaurantDetailBundle,
+                                    new NavOptions.Builder()
+                                            .setEnterAnim(android.R.animator.fade_in)
+                                            .setExitAnim(android.R.animator.fade_out)
+                                            .build());
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.drawer_menu_settings:
                 System.out.println("Setting");

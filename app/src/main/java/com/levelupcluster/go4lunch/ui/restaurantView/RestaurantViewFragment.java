@@ -1,12 +1,14 @@
 package com.levelupcluster.go4lunch.ui.restaurantView;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +32,8 @@ import com.levelupcluster.go4lunch.domain.models.Workmate;
 import com.levelupcluster.go4lunch.ui.MainActivityViewModel;
 import com.levelupcluster.go4lunch.ui.workmates.WorkmatesAdapter;
 import com.levelupcluster.go4lunch.utils.Callback;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -43,8 +48,6 @@ public class RestaurantViewFragment extends Fragment {
     ImageView headerImage;
     RatingBar ratingBar;
     FloatingActionButton fab;
-    float rating;
-    List<Workmate> workmates;
     RestaurantDetails restaurant;
     private RestaurantViewAdapter adapter;
     private RecyclerView recyclerView;
@@ -62,17 +65,26 @@ public class RestaurantViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(RestaurantViewViewModel.class);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle data = getArguments();
-        if(data != null){
+        if (data != null) {
             restaurant = (RestaurantDetails) getArguments().getSerializable(argumentKey);
         }
-        bindView();
 
+        viewModel.getCurrentWorkmate(new Callback<Workmate>() {
+            @Override
+            public void onCallback(Workmate result) {
+                if (restaurant.getId().equals(result.getRestaurantChoiceId())) {
+                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.success)));
+                }
+            }
+        });
+        bindView();
 
         Glide.with(view.getContext())
                 .load(restaurant.getPhotoUrl())
@@ -82,8 +94,19 @@ public class RestaurantViewFragment extends Fragment {
         viewModel.getWorkmateByRestaurant(restaurant.getId(), new Callback<List<Workmate>>() {
             @Override
             public void onCallback(List<Workmate> result) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                adapter = new RestaurantViewAdapter(new ArrayList<>());
+                recyclerView.setAdapter(adapter);
+                refreshList();
+            }
+        });
+    }
 
-
+    private void refreshList() {
+        viewModel.workmates.observe(getViewLifecycleOwner(), new Observer<List<Workmate>>() {
+            @Override
+            public void onChanged(List<Workmate> workmates) {
+                adapter.update(workmates);
             }
         });
     }
@@ -93,7 +116,7 @@ public class RestaurantViewFragment extends Fragment {
         info.setText(restaurant.getVicinity());
         ratingBar.setRating(Float.parseFloat(restaurant.getRating()));
 
-        if (restaurant.getWebsite() != null){
+        if (restaurant.getWebsite() != null) {
             websiteLL.setVisibility(View.VISIBLE);
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(restaurant.getWebsite()));
             websiteLL.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +126,7 @@ public class RestaurantViewFragment extends Fragment {
                 }
             });
         }
-        if (restaurant.getFormattedPhoneNumber() != null){
+        if (restaurant.getFormattedPhoneNumber() != null) {
             callLL.setVisibility(View.VISIBLE);
             Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + restaurant.getFormattedPhoneNumber()));
             callLL.setOnClickListener(new View.OnClickListener() {
@@ -114,18 +137,32 @@ public class RestaurantViewFragment extends Fragment {
             });
         }
 
-
-
-        if(true){ //TODO check if user have chose this restaurant
-            fab.setBackgroundResource(com.firebase.ui.auth.R.color.design_default_color_primary);
-        } else {
-            fab.setBackgroundResource(com.firebase.ui.auth.R.color.design_default_color_secondary);
-        }
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.updateRestaurantChoice(restaurant.getId());
+                viewModel.getCurrentWorkmate(new Callback<Workmate>() {
+                    @Override
+                    public void onCallback(Workmate workmate) {
+                        if (restaurant.getId().equals(workmate.getRestaurantChoiceId())) {
+                            Toast.makeText(getContext(), getContext().getString(R.string.you_already_eat_at) + restaurant.getName(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            viewModel.updateRestaurantChoice(restaurant.getId(), new Callback<Void>() {
+                                @Override
+                                public void onCallback(Void result) {
+                                    Toast.makeText(getContext(), getContext().getString(R.string.you_now_eat_at) + restaurant.getName(), Toast.LENGTH_SHORT).show();
+                                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.success)));
+                                    viewModel.getWorkmateByRestaurant(restaurant.getId(), new Callback<List<Workmate>>() {
+                                        @Override
+                                        public void onCallback(List<Workmate> result) {
+                                            refreshList();
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    }
+                });
             }
         });
     }
@@ -147,21 +184,23 @@ public class RestaurantViewFragment extends Fragment {
         websiteLL.setVisibility(View.GONE);
         recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
 
-        workmates = new ArrayList<>();
+        viewModel.workmates.observe(getViewLifecycleOwner(), new Observer<List<Workmate>>() {
+            @Override
+            public void onChanged(List<Workmate> workmates) {
+                initList();
+            }
+        });
 
-        if (workmates.size() == 0){
-            //TODO add textView with no workmate eat here.
-        } else {
-            initList();
-        }
+
         return view;
     }
 
     private void initList() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new RestaurantViewAdapter(new ArrayList<Workmate>() {});
+        adapter = new RestaurantViewAdapter(new ArrayList<Workmate>() {
+        });
         recyclerView.setAdapter(adapter);
-//        refreshList();
+        refreshList();
     }
 
 }

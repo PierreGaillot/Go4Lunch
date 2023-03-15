@@ -9,7 +9,11 @@
         android:id="@+id/navigation_map"
         android:name="com.levelupcluster.go4lunch.ui.mapView.MapViewFragment"
         android:label="@string/title_map_view"
-        tools:layout="@layout/fragment_map_view" />
+        tools:layout="@layout/fragment_map_view" >
+        <action
+            android:id="@+id/action_navigation_map_to_navigation_restaurant"
+            app:destination="@id/navigation_restaurant" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_list"

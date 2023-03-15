@@ -47,7 +47,8 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
 
         String workmateStatus = "";
         if (wmChoiceId != null) { // the workmate have a restaurant assign.
-            workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.is_eating) + " " + wmChoice.getCookStyle() + " (" + wmChoice.getName() + ")";
+//            workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.is_eating) + " " + wmChoice.getCookStyle() + " (" + wmChoice.getName() + ")";
+            workmateStatus = currentWm.getDisplayName() + " " + context.getString(R.string.is_eating) + " (" + wmChoiceId + ")";
             holder.status.setTypeface(null, Typeface.BOLD);
             holder.status.setTextColor(context.getResources().getColor(com.firebase.ui.auth.R.color.design_default_color_on_background));
         } else { // the workmate does not have a restaurant assigned

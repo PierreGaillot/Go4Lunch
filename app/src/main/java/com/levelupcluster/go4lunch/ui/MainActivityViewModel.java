@@ -10,14 +10,20 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.levelupcluster.go4lunch.domain.models.RestaurantDetails;
 import com.levelupcluster.go4lunch.domain.models.User;
+import com.levelupcluster.go4lunch.domain.models.Workmate;
 import com.levelupcluster.go4lunch.domain.usecases.CreateUserUseCase;
+import com.levelupcluster.go4lunch.domain.usecases.GetAllWorkmatesUseCase;
 import com.levelupcluster.go4lunch.domain.usecases.GetCurrentUserUseCase;
+import com.levelupcluster.go4lunch.domain.usecases.GetRestaurantDetailsUseCase;
 import com.levelupcluster.go4lunch.domain.usecases.SignOutCurrentUserUseCase;
 import com.levelupcluster.go4lunch.ui.uimodels.DrawerHeaderUiModel;
+import com.levelupcluster.go4lunch.utils.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +35,9 @@ public class MainActivityViewModel extends ViewModel {
     private SignOutCurrentUserUseCase signOutCurrentUserUseCase = SignOutCurrentUserUseCase.instance;
     private CreateUserUseCase createUserUseCase = CreateUserUseCase.instance;
 
+    private GetAllWorkmatesUseCase getAllWorkmatesUseCase = GetAllWorkmatesUseCase.instance;
+
+    private GetRestaurantDetailsUseCase getRestaurantDetailsUseCase = GetRestaurantDetailsUseCase.instance;
 
     private final MutableLiveData<DrawerHeaderUiModel> headerData = new MutableLiveData<>();
 
@@ -82,7 +91,30 @@ public class MainActivityViewModel extends ViewModel {
         signOutCurrentUserUseCase.signOut(context);
     }
 
-    public void getRestaurantAround(){
+    void getUserRestaurantDetails(Callback<RestaurantDetails> callback) throws FirebaseAuthException {
+        User currentUser = mGetCurrentUserUseCase.invoke();
+        getAllWorkmatesUseCase.getWorkmates(new Callback<List<Workmate>>() {
+            @Override
+            public void onCallback(List<Workmate> result) {
+                try {
+                    for (Workmate wm : result) {
+                        if (currentUser.getEmail().equals(wm.getEmail())) {
+                            if (wm.getRestaurantChoiceId() != null) {
+                                getRestaurantDetailsUseCase.getRestaurantDetails(wm.getRestaurantChoiceId(), new Callback<RestaurantDetails>() {
+                                    @Override
+                                    public void onCallback(RestaurantDetails result) {
+                                        callback.onCallback(result);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
     }
 
